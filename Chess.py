@@ -2,6 +2,12 @@
 
 import numpy as np
 import re
+from chess_pieces_move.paw import paw_move
+from chess_pieces_move.knight import knight_move
+from chess_pieces_move.bishop import bishop_move
+from chess_pieces_move.rook import rook_move
+from chess_pieces_move.queen import queen_move
+from chess_pieces_move.king import king_move
 
 empty_space = "_"
 corner = "¤"
@@ -83,10 +89,31 @@ def game_loop(table, user):
     else:
         print("wrong area")
         return(game_loop(table, user))
+    return (detection_piece(table, user, src, dest))
 
-    return (move_piece(table, user, src, dest))
+def detection_piece(table, user, src, dest):
+    for j in range (2):
+        if table[src[1]][src[2]] == pieces[j][0]:
+            if paw_move(table, user, src, dest) == True:
+                return (move_pieces(table, user, src, dest))
+        if table[src[1]][src[2]] == pieces[j][1]:
+            if knight_move(table, user, src, dest) == True:
+                return (move_pieces(table, user, src, dest))
+        if table[src[1]][src[2]] == pieces[j][2]:
+            if bishop_move(table, user, src, dest) == True:
+                return (move_pieces(table, user, src, dest))
+        if table[src[1]][src[2]] == pieces[j][3]:
+            if rook_move(table, user, src, dest) == True:
+                return (move_pieces(table, user, src, dest))
+        if table[src[1]][src[2]] == pieces[j][4]:
+            if queen_move(table, user, src, dest) == True:
+                return (move_pieces(table, user, src, dest))
+        if table[src[1]][src[2]] == pieces[j][5]:
+            if king_move(table, user, src, dest) == True:
+                return (move_pieces(table, user, src, dest))
+    return (game_loop(table, user))
 
-def move_piece(table, user, src, dest):
+def move_pieces(table, user, src, dest):
     if user[2] == 1:
         if table[dest[1]][dest[2]] == empty_space:
             tmp = table[dest[1]][dest[2]]
