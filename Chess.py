@@ -44,17 +44,34 @@ def set_pieces(table):                                              #set all pie
 
     return (table)
 
+def alph_to_index(str):
+    for i in range (8):
+        if ord(str) == 65+i:
+            return (i+1)
+
 def game_loop(table, user):
     src = [input("Select the area with the chess piece you want to play: "), "", ""]
     if len(src[0]) == 2 and bool(re.match('^[a-hA-H1-8]*$', src[0]))==True:
         for i in range (2):
             if bool(re.match('^[a-hA-H]*$', src[0][i]))==True:
-                src[1] = src[0][i].upper()
+                src[2] = alph_to_index(src[0][i].upper())
             else:
-                src[2] = src[0][i]
+                src[1] = 9 - int(src[0][i])
     else:
         print("wrong area")
         return(game_loop(table, user))
+
+    dest = [input("Select the area where you want to move the chess piece: "), "", ""]
+    if len(dest[0]) == 2 and bool(re.match('^[a-hA-H1-8]*$', dest[0]))==True:
+        for i in range (2):
+            if bool(re.match('^[a-hA-H]*$', dest[0][i]))==True:
+                dest[2] = alph_to_index(dest[0][i].upper())
+            else:
+                dest[1] = 9 - int(dest[0][i])
+    else:
+        print("wrong area")
+        return(game_loop(table, user))
+
     display_table(table)
     return (table)
 
