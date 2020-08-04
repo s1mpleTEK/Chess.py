@@ -13,8 +13,8 @@ empty_space = "_"
 corner = "¤"
 pieces =    [[u"\u2659", u"\u2658", u"\u2657", u"\u2656", u"\u2655", u"\u2654"],        #pawn, knight, bishop, rook, queen, king (white)
             [u"\u265F", u"\u265E", u"\u265D", u"\u265C", u"\u265B", u"\u265A"]]         #pawn, knight, bishop, rook, queen, king (black)
-area =      [["A", "B", "C", "D", "E", "F", "G", "H"],
-            [1, 2, 3, 4, 5, 6, 7, 8]]
+area =      [["A", "B", "C", "D", "E", "F", "G", "H"],                                  #x axis
+            [1, 2, 3, 4, 5, 6, 7, 8]]                                                   #y axis
 
 def set_user():                                         #set name for players
     user =   [input("Player 1 enter your name: "),      #name of player 1
@@ -50,51 +50,53 @@ def set_pieces(table):                                              #set all pie
 
     return (table)
 
-def alph_to_index(str):
-    for i in range (8):
-        if ord(str) == 65+i:
+def alph_to_index(str):             #convert alphabet to number for index
+    for i in range (8):             #0 to 7 for make A to H
+        if ord(str) == ord("A")+i:       #check the good letter for find the good index
             return (i+1)
 
-def verification_good_piece(table, user, src):
+def verification_good_piece(table, user, src):      #verify that the player select their chess pieces
     if user[2] == 1:
-        if table[src[1]][src[2]] in pieces[1]:
+        if table[src[1]][src[2]] in pieces[1]:      #verify that player 1 takes black chess pieces
             return (True)
     else:
-        if table[src[1]][src[2]] in pieces[0]:
+        if table[src[1]][src[2]] in pieces[0]:      #verify that player 2 takes white chess pieces
             return (True)
     return (False)
 
-def game_loop(table, user):
-    src = [input("Select the area with the chess piece you want to play: "), "", ""]
-    if len(src[0]) == 2 and bool(re.match('^[a-hA-H1-8]*$', src[0]))==True:
-        for i in range (2):
-            if bool(re.match('^[a-hA-H]*$', src[0][i]))==True:
-                src[2] = alph_to_index(src[0][i].upper())
+def game_loop(table, user):                                                                 #interaction with player
+    #choose chess piece
+    src = [input("Select the area with the chess piece you want to play: "), "", ""]        #src[input player, table[line], table[column]]
+    if len(src[0]) == 2 and bool(re.match('^[a-hA-H1-8]*$', src[0]))==True:                 #verify if src[input player] has length equal 2 and if it founds a-hA-H1-8 in this input
+        for i in range (2):                                                                 #for browse src[input player]
+            if bool(re.match('^[a-hA-H]*$', src[0][i]))==True:                              #for separate number and letter
+                src[2] = alph_to_index(src[0][i].upper())                                   #put letter in src[table[column]]
             else:
-                src[1] = 9 - int(src[0][i])
-        if verification_good_piece(table, user, src) == False:
+                src[1] = 9 - int(src[0][i])                                                 #put number in src[table[line]]
+        if verification_good_piece(table, user, src) == False:                              #verify that the player select their chess pieces
             print("not your's")
             return (game_loop(table, user))
-    else:
+    else:                                                                                   #if the player write wrong information
         print("wrong area")
         return(game_loop(table, user))
 
-    dest = [input("Select the area where you want to move the chess piece: "), "", ""]
-    if len(dest[0]) == 2 and bool(re.match('^[a-hA-H1-8]*$', dest[0]))==True:
-        for i in range (2):
-            if bool(re.match('^[a-hA-H]*$', dest[0][i]))==True:
-                dest[2] = alph_to_index(dest[0][i].upper())
+    #choose destination of chess piece
+    dest = [input("Select the area where you want to move the chess piece: "), "", ""]      #dest[input player, table[line], table[column]]
+    if len(dest[0]) == 2 and bool(re.match('^[a-hA-H1-8]*$', dest[0]))==True:               #verify if dest[input player] has length equal 2 and if it founds a-hA-H1-8 in this input
+        for i in range (2):                                                                 #for browse dest[input player]
+            if bool(re.match('^[a-hA-H]*$', dest[0][i]))==True:                             #for separate number and letter
+                dest[2] = alph_to_index(dest[0][i].upper())                                 #put letter in dest[table[column]]
             else:
-                dest[1] = 9 - int(dest[0][i])
-    else:
+                dest[1] = 9 - int(dest[0][i])                                               #put number in dest[table[line]]
+    else:                                                                                   #if the player write wrong information
         print("wrong area")
         return(game_loop(table, user))
     return (detection_piece(table, user, src, dest))
 
-def detection_piece(table, user, src, dest):
-    for j in range (2):
-        if table[src[1]][src[2]] == pieces[j][0]:
-            if paw_move(table, user, src, dest) == True:
+def detection_piece(table, user, src, dest):                    #detect the good chess piece
+    for j in range (2):                                         #for browse pieces[]
+        if table[src[1]][src[2]] == pieces[j][0]:               #if chess piece equal paw
+            if paw_move(table, user, src, dest) == True:        #read paw's script movement
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][1]:
             if knight_move(table, user, src, dest) == True:
@@ -113,29 +115,21 @@ def detection_piece(table, user, src, dest):
                 return (move_pieces(table, user, src, dest))
     return (game_loop(table, user))
 
-def move_pieces(table, user, src, dest):
+def move_pieces(table, user, src, dest):                        #update board and move chess piece
     if user[2] == 1:
-        if table[dest[1]][dest[2]] == empty_space:
-            tmp = table[dest[1]][dest[2]]
-            table[dest[1]][dest[2]] = table[src[1]][src[2]]
-            table[src[1]][src[2]] = tmp
-        elif table[dest[1]][dest[2]] in pieces[0]:
-            table[dest[1]][dest[2]] = table[src[1]][src[2]]
-            table[src[1]][src[2]] = empty_space
-        else:
-            print("you can't move here")
-            return (game_loop(table, user))
+        if table[dest[1]][dest[2]] == empty_space:              #verify if the destination of the chess piece is empty
+            table[dest[1]][dest[2]] = table[src[1]][src[2]]     #move the chess piece to their destination
+            table[src[1]][src[2]] = empty_space                 #put a empty space at the source of the chess piece
+        elif table[dest[1]][dest[2]] in pieces[0]:              #verify if the destination of the chess piece is possessed by an opposent's chess piece
+            table[dest[1]][dest[2]] = table[src[1]][src[2]]     #move the chess piece to thier destination
+            table[src[1]][src[2]] = empty_space                 #put a empty space at the source of the chess piece
     elif user[2] == 2:
-        if table[dest[1]][dest[2]] == empty_space:
-            tmp = table[dest[1]][dest[2]]
-            table[dest[1]][dest[2]] = table[src[1]][src[2]]
-            table[src[1]][src[2]] = tmp
-        elif table[dest[1]][dest[2]] in pieces[1]:
-            table[dest[1]][dest[2]] = table[src[1]][src[2]]
-            table[src[1]][src[2]] = empty_space
-        else:
-            print("you can't move here")
-            return (game_loop(table, user))
+        if table[dest[1]][dest[2]] == empty_space:              #verify if the destination of the chess piece is empty
+            table[dest[1]][dest[2]] = table[src[1]][src[2]]     #move the chess piece to their destination
+            table[src[1]][src[2]] = empty_space                 #put a empty space at the source of the chess piece
+        elif table[dest[1]][dest[2]] in pieces[1]:              #verify if the destination of the chess piece is possessed by an opposent's chess piece
+            table[dest[1]][dest[2]] = table[src[1]][src[2]]     #move the chess piece to thier destination
+            table[src[1]][src[2]] = empty_space                 #put a empty space at the source of the chess piece
 
     display_table(table)
     return (table)
@@ -158,13 +152,13 @@ def display_table(table):       #display game board
 
 if __name__ == "__main__":
     try:
-        user = set_user()       #set name for player
-        table = set_table()     #init game board
-        display_table(table)    #display game board
+        user = set_user()                           #set name for player
+        table = set_table()                         #init game board
+        display_table(table)                        #display game board
         while (True):
             print(user[user[2]-1],"'s turn")
-            table = game_loop(table, user)
-            user = game_condition(table, user)
+            table = game_loop(table, user)          #interaction with the player
+            user = game_condition(table, user)      
             if user[2] == 0 or user[2] == -1:
                 break
     except (EOFError, KeyboardInterrupt) as error:
