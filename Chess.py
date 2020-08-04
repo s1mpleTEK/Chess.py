@@ -49,6 +49,15 @@ def alph_to_index(str):
         if ord(str) == 65+i:
             return (i+1)
 
+def verification_good_piece(table, user, src):
+    if user[2] == 1:
+        if table[src[1]][src[2]] in pieces[1]:
+            return (True)
+    else:
+        if table[src[1]][src[2]] in pieces[0]:
+            return (True)
+    return (False)
+
 def game_loop(table, user):
     src = [input("Select the area with the chess piece you want to play: "), "", ""]
     if len(src[0]) == 2 and bool(re.match('^[a-hA-H1-8]*$', src[0]))==True:
@@ -57,6 +66,9 @@ def game_loop(table, user):
                 src[2] = alph_to_index(src[0][i].upper())
             else:
                 src[1] = 9 - int(src[0][i])
+        if verification_good_piece(table, user, src) == False:
+            print("not your's")
+            return (game_loop(table, user))
     else:
         print("wrong area")
         return(game_loop(table, user))
@@ -72,11 +84,37 @@ def game_loop(table, user):
         print("wrong area")
         return(game_loop(table, user))
 
+    return (move_piece(table, user, src, dest))
+
+def move_piece(table, user, src, dest):
+    if user[2] == 1:
+        if table[dest[1]][dest[2]] == empty_space:
+            tmp = table[dest[1]][dest[2]]
+            table[dest[1]][dest[2]] = table[src[1]][src[2]]
+            table[src[1]][src[2]] = tmp
+        elif table[dest[1]][dest[2]] in pieces[0]:
+            table[dest[1]][dest[2]] = table[src[1]][src[2]]
+            table[src[1]][src[2]] = empty_space
+        else:
+            print("you can't move here")
+            return (game_loop(table, user))
+    elif user[2] == 2:
+        if table[dest[1]][dest[2]] == empty_space:
+            tmp = table[dest[1]][dest[2]]
+            table[dest[1]][dest[2]] = table[src[1]][src[2]]
+            table[src[1]][src[2]] = tmp
+        elif table[dest[1]][dest[2]] in pieces[1]:
+            table[dest[1]][dest[2]] = table[src[1]][src[2]]
+            table[src[1]][src[2]] = empty_space
+        else:
+            print("you can't move here")
+            return (game_loop(table, user))
+
     display_table(table)
     return (table)
 
 def game_condition(table, user):
-    if user[2] % 2 == 1:
+    if user[2] == 1:
             user[2] = 2
     else:
         user[2] = 1
