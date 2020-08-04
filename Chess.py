@@ -2,13 +2,23 @@
 
 import numpy as np
 
+empty_space = "_"
+corner = "¤"
+
+def set_user():                                         #set name for players
+    user =   [input("Player 1 enter your name: "),      #name of player 1
+            input("Player 2 enter your name: "),        #name of player 2
+            1]                                          #player turn: 1 means O & 2 means X & 0 means someone win & -1 means tie
+
+    return (user)
+
 def set_table():                                    #init game board
     table = np.zeros((10,10), dtype=str)            #init empty list 10x10 ([9][9])
     for i in range (1,9):                           #set * in every line
-        table[i] = '*'
+        table[i] = empty_space
 
     for i in range (2):                             #i=0 > i=1
-        table[i*9] = "¤"                            #set ¤ in every corner and browse y of table (first line and last line)
+        table[i*9] = corner                         #set ¤ in every corner and browse y of table (first line and last line)
         for j in range (8):                         #browse x of table
             table[i*9][j+1] = chr(ord("A")+j)       #A>B>C>D>E>F>G>H
 
@@ -18,13 +28,26 @@ def set_table():                                    #init game board
 
     return (table)
 
+def game_loop(table, user):
+    return (table)
+
+def game_condition(table, user):
+    return (user)
+
 def display_table(table):       #display game board
     for i in range (10):
         print(table[i])
 
 if __name__ == "__main__":
     try:
+        user = set_user()       #set name for player
         table = set_table()     #init game board
         display_table(table)    #display game board
+        while (True):
+            print(user[user[2]-1],"'s turn")
+            table = game_loop(table, user)
+            user = game_condition(table, user)
+            if user[2] == 0 or user[2] == -1:
+                break
     except (EOFError, KeyboardInterrupt) as error:
         exit()
