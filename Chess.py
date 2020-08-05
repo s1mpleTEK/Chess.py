@@ -100,10 +100,10 @@ def detection_piece(table, user, src, dest):                            #detect 
             if paw_move(table, user, src, dest, pieces) == True:        #read paw's script movement
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][1]:
-            if knight_move(table, user, src, dest, pieces) == True:     #read knignt'script movement
+            if knight_move(table, user, src, dest, pieces) == True:     #read knignt's script movement
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][2]:
-            if bishop_move(table, user, src, dest) == True:
+            if bishop_move(table, user, src, dest, pieces) == True:     #read bishop's script movement
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][3]:
             if rook_move(table, user, src, dest) == True:
