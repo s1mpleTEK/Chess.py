@@ -2,6 +2,7 @@
 
 import numpy as np
 import re
+
 from chess_pieces_move.paw import paw_move
 from chess_pieces_move.knight import knight_move
 from chess_pieces_move.bishop import bishop_move
@@ -33,7 +34,7 @@ def set_table():                                    #init game board
         for j in range (1,9):                       #browse x of table
             table[i*9][j] = area[0][j-1]            #A>B>C>D>E>F>G>H
         for j in range (1,9):                       #browse y of table and set the number 8 to 1 at [1][0] to [8][0] and [1][9] to [8][9]
-            table[j][i*9] = area[1][-(j-1)-1]                     #1>2>3>4>5>6>7>8
+            table[j][i*9] = area[1][-(j-1)-1]       #1>2>3>4>5>6>7>8
 
     return (set_pieces(table))
 
@@ -50,9 +51,9 @@ def set_pieces(table):                                              #set all pie
 
     return (table)
 
-def alph_to_index(str):             #convert alphabet to number for index
-    for i in range (8):             #0 to 7 for make A to H
-        if ord(str) == ord("A")+i:       #check the good letter for find the good index
+def alph_to_index(str):                 #convert alphabet to number for index
+    for i in range (8):                 #0 to 7 for make A to H
+        if ord(str) == ord("A")+i:      #check the good letter for find the good index
             return (i+1)
 
 def verification_good_piece(table, user, src):      #verify that the player select their chess pieces
@@ -93,13 +94,13 @@ def game_loop(table, user):                                                     
         return(game_loop(table, user))
     return (detection_piece(table, user, src, dest))
 
-def detection_piece(table, user, src, dest):                    #detect the good chess piece
-    for j in range (2):                                         #for browse pieces[]
-        if table[src[1]][src[2]] == pieces[j][0]:               #if chess piece equal paw
-            if paw_move(table, user, src, dest) == True:        #read paw's script movement
+def detection_piece(table, user, src, dest):                            #detect the good chess piece
+    for j in range (2):                                                 #for browse pieces[]
+        if table[src[1]][src[2]] == pieces[j][0]:                       #if chess piece equal paw
+            if paw_move(table, user, src, dest, pieces) == True:        #read paw's script movement
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][1]:
-            if knight_move(table, user, src, dest) == True:
+            if knight_move(table, user, src, dest, pieces) == True:     #read knignt'script movement
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][2]:
             if bishop_move(table, user, src, dest) == True:
