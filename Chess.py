@@ -3,7 +3,7 @@
 import numpy as np
 import re
 
-from chess_pieces_move.paw import paw_move
+from chess_pieces_move.paw import paw_move, paw_evolution
 from chess_pieces_move.knight import knight_move
 from chess_pieces_move.bishop import bishop_move
 from chess_pieces_move.rook import rook_move
@@ -116,28 +116,32 @@ def detection_piece(table, user, src, dest):                                    
                 return (move_pieces(table, user, src, dest))
     return (game_loop(table, user))
 
-def move_pieces(table, user, src, dest):                        #update board and move chess piece
+def move_pieces(table, user, src, dest):                                #update board and move chess piece
     if user[2] == 1:
-        if table[dest[1]][dest[2]] == empty_space:              #verify if the destination of the chess piece is empty
-            table[dest[1]][dest[2]] = table[src[1]][src[2]]     #move the chess piece to their destination
-            table[src[1]][src[2]] = empty_space                 #put a empty space at the source of the chess piece
-        elif table[dest[1]][dest[2]] in pieces[0]:              #verify if the destination of the chess piece is possessed by an opposent's chess piece
-            table[dest[1]][dest[2]] = table[src[1]][src[2]]     #move the chess piece to thier destination
-            table[src[1]][src[2]] = empty_space                 #put a empty space at the source of the chess piece
+        if table[src[1]][src[2]] == pieces[1][0] and dest[1] == 1:      #verify if the paw of player 1 moves on the last line for evolve
+            table = paw_evolution(table, src, pieces[1])
+        if table[dest[1]][dest[2]] == empty_space:                      #verify if the destination of the chess piece is empty
+            table[dest[1]][dest[2]] = table[src[1]][src[2]]             #move the chess piece to their destination
+            table[src[1]][src[2]] = empty_space                         #put a empty space at the source of the chess piece
+        elif table[dest[1]][dest[2]] in pieces[0]:                      #verify if the destination of the chess piece is possessed by an opposent's chess piece
+            table[dest[1]][dest[2]] = table[src[1]][src[2]]             #move the chess piece to thier destination
+            table[src[1]][src[2]] = empty_space                         #put a empty space at the source of the chess piece
     elif user[2] == 2:
-        if table[dest[1]][dest[2]] == empty_space:              #verify if the destination of the chess piece is empty
-            table[dest[1]][dest[2]] = table[src[1]][src[2]]     #move the chess piece to their destination
-            table[src[1]][src[2]] = empty_space                 #put a empty space at the source of the chess piece
-        elif table[dest[1]][dest[2]] in pieces[1]:              #verify if the destination of the chess piece is possessed by an opposent's chess piece
-            table[dest[1]][dest[2]] = table[src[1]][src[2]]     #move the chess piece to thier destination
-            table[src[1]][src[2]] = empty_space                 #put a empty space at the source of the chess piece
+        if table[src[1]][src[2]] == pieces[0][0] and dest[1] == 8:      #verify if the paw of player 2 moves on the last line for evolve
+            table = paw_evolution(table, src, pieces[0])
+        if table[dest[1]][dest[2]] == empty_space:                      #verify if the destination of the chess piece is empty
+            table[dest[1]][dest[2]] = table[src[1]][src[2]]             #move the chess piece to their destination
+            table[src[1]][src[2]] = empty_space                         #put a empty space at the source of the chess piece
+        elif table[dest[1]][dest[2]] in pieces[1]:                      #verify if the destination of the chess piece is possessed by an opposent's chess piece
+            table[dest[1]][dest[2]] = table[src[1]][src[2]]             #move the chess piece to thier destination
+            table[src[1]][src[2]] = empty_space                         #put a empty space at the source of the chess piece
 
     display_table(table)
     return (table)
 
 def game_condition(table, user):
     if user[2] == 1:
-            user[2] = 2
+        user[2] = 2
     else:
         user[2] = 1
 
@@ -150,6 +154,7 @@ def display_table(table):       #display game board
         print(table[i])
 
     print("")
+    return
 
 if __name__ == "__main__":
     try:
