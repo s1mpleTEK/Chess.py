@@ -99,20 +99,20 @@ def detection_piece(table, user, src, dest):                                    
         if table[src[1]][src[2]] == pieces[j][0]:                                   #if chess piece equal paw
             if paw_move(table, user, src, dest, pieces) == True:                    #read paw's script movement
                 return (move_pieces(table, user, src, dest))
-        if table[src[1]][src[2]] == pieces[j][1]:
+        if table[src[1]][src[2]] == pieces[j][1]:                                   #if chess piece equal knight
             if knight_move(table, user, src, dest, pieces) == True:                 #read knignt's script movement
                 return (move_pieces(table, user, src, dest))
-        if table[src[1]][src[2]] == pieces[j][2]:
+        if table[src[1]][src[2]] == pieces[j][2]:                                   #if chess piece equal bishop
             if bishop_move(table, user, src, dest, pieces, empty_space) == True:    #read bishop's script movement
                 return (move_pieces(table, user, src, dest))
-        if table[src[1]][src[2]] == pieces[j][3]:
+        if table[src[1]][src[2]] == pieces[j][3]:                                   #if chess piece equal rook
             if rook_move(table, user, src, dest, pieces, empty_space) == True:      #read rook's script movement
                 return (move_pieces(table, user, src, dest))
-        if table[src[1]][src[2]] == pieces[j][4]:
-            if queen_move(table, user, src, dest) == True:
+        if table[src[1]][src[2]] == pieces[j][4]:                                   #if chess piece equal queen
+            if queen_move(table, user, src, dest, pieces, empty_space) == True:     #read queen's script movement
                 return (move_pieces(table, user, src, dest))
-        if table[src[1]][src[2]] == pieces[j][5]:
-            if king_move(table, user, src, dest) == True:
+        if table[src[1]][src[2]] == pieces[j][5]:                                   #if chess piece equal king
+            if king_move(table, user, src, dest, pieces, empty_space) == True:      #read king's script movement
                 return (move_pieces(table, user, src, dest))
     return (game_loop(table, user))
 

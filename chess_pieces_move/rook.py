@@ -35,13 +35,13 @@ def rook_move(table, user, src, dest, pieces, empty_space):         #rook's scri
             if calc_x > 0:                                          #if rook goes right
                 if src[1] == dest[1] and src[2]+i == dest[2]:       #⭢
                     return (True)
-                elif table[src[1]][src[2]+i] != empty_space:      #verify if the path is clear
+                elif table[src[1]][src[2]+i] != empty_space:        #verify if the path is clear
                     print("you can not move here")
                     return (False)
             if calc_x < 0:                                          #if rook goes left
-                if src[1] == dest[1] and src[2]-i == dest[2]:     #⭠
+                if src[1] == dest[1] and src[2]-i == dest[2]:       #⭠
                     return (True)
-                elif table[src[1]][src[2]-i] != empty_space:      #verify if the path is clear
+                elif table[src[1]][src[2]-i] != empty_space:        #verify if the path is clear
                     print("you can not move here")
                     return (False)
 
