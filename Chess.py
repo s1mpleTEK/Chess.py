@@ -94,19 +94,19 @@ def game_loop(table, user):                                                     
         return(game_loop(table, user))
     return (detection_piece(table, user, src, dest))
 
-def detection_piece(table, user, src, dest):                            #detect the good chess piece
-    for j in range (2):                                                 #for browse pieces[]
-        if table[src[1]][src[2]] == pieces[j][0]:                       #if chess piece equal paw
-            if paw_move(table, user, src, dest, pieces) == True:        #read paw's script movement
+def detection_piece(table, user, src, dest):                                        #detect the good chess piece
+    for j in range (2):                                                             #for browse pieces[]
+        if table[src[1]][src[2]] == pieces[j][0]:                                   #if chess piece equal paw
+            if paw_move(table, user, src, dest, pieces) == True:                    #read paw's script movement
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][1]:
-            if knight_move(table, user, src, dest, pieces) == True:     #read knignt's script movement
+            if knight_move(table, user, src, dest, pieces) == True:                 #read knignt's script movement
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][2]:
-            if bishop_move(table, user, src, dest, pieces) == True:     #read bishop's script movement
+            if bishop_move(table, user, src, dest, pieces, empty_space) == True:    #read bishop's script movement
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][3]:
-            if rook_move(table, user, src, dest) == True:
+            if rook_move(table, user, src, dest, pieces, empty_space) == True:      #read rook's script movement
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][4]:
             if queen_move(table, user, src, dest) == True:

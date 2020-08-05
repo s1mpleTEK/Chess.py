@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 
-empty_space = "_"
-
-def bishop_move(table, user, src, dest, pieces):                    #bishop's script movement
+def bishop_move(table, user, src, dest, pieces, empty_space):       #bishop's script movement
     calc_y = int(dest[1]-src[1])                                    #calcul if the bishop goes up or down
     calc_x = int(dest[2]-src[2])                                    #calcul if the bishop goes right or left
 
@@ -18,7 +16,7 @@ def bishop_move(table, user, src, dest, pieces):                    #bishop's sc
         if table[dest[1]][dest[2]] in pieces[0]:                    #verify that the player can't move on his chess pieces
             print("you can not move here")
             return (False)
-    
+
     for i in range (1,8):                                           #browse the diagonal
         if calc_y > 0:                                              #if bishop goes down
             if calc_x > 0:                                          #if bishop goes right
@@ -47,6 +45,5 @@ def bishop_move(table, user, src, dest, pieces):                    #bishop's sc
                     print("you can not move here")
                     return (False)
 
-    
     print("you can not move here")
     return (False)
