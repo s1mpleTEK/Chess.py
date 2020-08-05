@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-def queen_move(table, user, src, dest, pieces, empty_space):        #queen's script movement
+def queen_move(table, user, src, dest, pieces, empty_space):        #queen's movements script
     calc_y = int(dest[1]-src[1])                                    #calcul if the queen goes up or down
     calc_x = int(dest[2]-src[2])                                    #calcul if the queen goes right or left
 

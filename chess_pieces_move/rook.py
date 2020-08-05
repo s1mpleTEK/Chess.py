@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-def rook_move(table, user, src, dest, pieces, empty_space):         #rook's script movement
+def rook_move(table, user, src, dest, pieces, empty_space):         #rook's movements script
     calc_y = int(dest[1]-src[1])                                    #calcul if the rook goes up or down
     calc_x = int(dest[2]-src[2])                                    #calcul if the rook goes right or left
 

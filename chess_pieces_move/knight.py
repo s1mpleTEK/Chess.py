@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-def knight_move(table, user, src, dest, pieces):                #knight's script movement
+def knight_move(table, user, src, dest, pieces):                #knight's movements script
     calc_y = int(dest[1]-src[1])                                #calcul if the knight goes up or down
     calc_x = int(dest[2]-src[2])                                #calcul if the knight goes right or left
 

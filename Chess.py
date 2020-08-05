@@ -97,22 +97,22 @@ def game_loop(table, user):                                                     
 def detection_piece(table, user, src, dest):                                        #detect the good chess piece
     for j in range (2):                                                             #for browse pieces[]
         if table[src[1]][src[2]] == pieces[j][0]:                                   #if chess piece equal paw
-            if paw_move(table, user, src, dest, pieces) == True:                    #read paw's script movement
+            if paw_move(table, user, src, dest, pieces, empty_space) == True:       #read paw's movements script
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][1]:                                   #if chess piece equal knight
-            if knight_move(table, user, src, dest, pieces) == True:                 #read knignt's script movement
+            if knight_move(table, user, src, dest, pieces) == True:                 #read knignt's movements script
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][2]:                                   #if chess piece equal bishop
-            if bishop_move(table, user, src, dest, pieces, empty_space) == True:    #read bishop's script movement
+            if bishop_move(table, user, src, dest, pieces, empty_space) == True:    #read bishop's movements script
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][3]:                                   #if chess piece equal rook
-            if rook_move(table, user, src, dest, pieces, empty_space) == True:      #read rook's script movement
+            if rook_move(table, user, src, dest, pieces, empty_space) == True:      #read rook's movements script
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][4]:                                   #if chess piece equal queen
-            if queen_move(table, user, src, dest, pieces, empty_space) == True:     #read queen's script movement
+            if queen_move(table, user, src, dest, pieces, empty_space) == True:     #read queen's movements script
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][5]:                                   #if chess piece equal king
-            if king_move(table, user, src, dest, pieces, empty_space) == True:      #read king's script movement
+            if king_move(table, user, src, dest, pieces, empty_space) == True:      #read king's movements script
                 return (move_pieces(table, user, src, dest))
     return (game_loop(table, user))
 
