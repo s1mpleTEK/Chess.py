@@ -74,12 +74,15 @@ def game_loop(table, user):                                                     
                 src[2] = alph_to_index(src[0][i].upper())                                   #put letter in src[table[column]]
             else:
                 src[1] = 9 - int(src[0][i])                                                 #put number in src[table[line]]
-        if verification_good_piece(table, user, src) == False:                              #verify that the player select their chess pieces
+        if table[src[1]][src[2]] == empty_space:                                            #verify if the player select empty space
+            print("wrong area")
+            return (game_loop(table, user))
+        elif verification_good_piece(table, user, src) == False:                            #verify that the player select their chess pieces
             print("not your's")
             return (game_loop(table, user))
     else:                                                                                   #if the player write wrong information
-        print("wrong area")
-        return(game_loop(table, user))
+        print("wrong input")
+        return (game_loop(table, user))
 
     #choose destination of chess piece
     dest = [input("Select the area where you want to move the chess piece: "), "", ""]      #dest[input player, table[line], table[column]]
@@ -90,8 +93,8 @@ def game_loop(table, user):                                                     
             else:
                 dest[1] = 9 - int(dest[0][i])                                               #put number in dest[table[line]]
     else:                                                                                   #if the player write wrong information
-        print("wrong area")
-        return(game_loop(table, user))
+        print("wrong input")
+        return (game_loop(table, user))
     return (detection_piece(table, user, src, dest))
 
 def detection_piece(table, user, src, dest):                                        #detect the good chess piece
