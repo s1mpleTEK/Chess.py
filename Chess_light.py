@@ -3,12 +3,12 @@
 import numpy as np
 import re
 
-from chess_pieces_move.paw import paw_move, paw_evolution
-from chess_pieces_move.knight import knight_move
-from chess_pieces_move.bishop import bishop_move
-from chess_pieces_move.rook import rook_move
-from chess_pieces_move.queen import queen_move
-from chess_pieces_move.king import king_move
+from chess_pieces_move_light.paw import paw_move, paw_evolution
+from chess_pieces_move_light.knight import knight_move
+from chess_pieces_move_light.bishop import bishop_move
+from chess_pieces_move_light.rook import rook_move
+from chess_pieces_move_light.queen import queen_move
+from chess_pieces_move_light.king import king_move
 
 empty_space = "_"
 corner = "¤"
