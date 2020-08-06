@@ -45,8 +45,8 @@ def set_pieces(table):                                              #set all pie
                 table[(j**3)-1][i**3] = pieces[j-1][3]                  #set rooks | i=1 -> i**3 = 1**3 = 1 / i=2 -> i**3 = 2**3 = 8
                 table[(j**3)-1][i**i+i*(i-1)+1] = pieces[j-1][1]        #set knights | i=1 -> i**i+i*(i-1)+1 = 1**1+1*(1-1)+1 = 1+1*0+1 = 2 / i=2 -> i**i+i*(i-1)+1 = 2**2+2*(2-1)+1 = 4+2*1+1 = 6+1 = 7
                 table[(j**3)-1][i*3] = pieces[j-1][2]                   #set bishops | i=1 -> i*3 = 1*3 = 3 / i=2 -> i*3 = 2*3 = 6
-    #             table[j**3][4] = pieces[j-1][4]                     #set queen
-    #             table[j**3][5] = pieces[j-1][5]                     #set king
+                table[(j**3)-1][4] = pieces[j-1][4]                     #set queen
+                table[(j**3)-1][5] = pieces[j-1][5]                     #set king
 
     return (table)
 
