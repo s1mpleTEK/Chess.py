@@ -72,7 +72,7 @@ def game_loop(table, user):                                                     
             if bool(re.match('^[a-hA-H]*$', src[0][i]))==True:                              #for separate number and letter
                 src[2] = alph_to_index(src[0][i].upper())                                   #put letter in src[table[column]]
             else:
-                src[1] = 9 - int(src[0][i])                                                 #put number in src[table[line]]
+                src[1] = 8 - int(src[0][i])                                                 #put number in src[table[line]]
         if verification_good_piece(table, user, src) == False:                              #verify that the player select their chess pieces
             print("not your's")
             return (game_loop(table, user))
@@ -87,7 +87,7 @@ def game_loop(table, user):                                                     
             if bool(re.match('^[a-hA-H]*$', dest[0][i]))==True:                             #for separate number and letter
                 dest[2] = alph_to_index(dest[0][i].upper())                                 #put letter in dest[table[column]]
             else:
-                dest[1] = 9 - int(dest[0][i])                                               #put number in dest[table[line]]
+                dest[1] = 8 - int(dest[0][i])                                               #put number in dest[table[line]]
     else:                                                                                   #if the player write wrong information
         print("wrong area")
         return(game_loop(table, user))
