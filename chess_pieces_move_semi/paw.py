@@ -12,7 +12,7 @@ def paw_move(table, user, src, dest, pieces, empty_space):          #paw's movem
             print("you can not move here")
             return (False)
         if table[dest[1]][dest[2]] == empty_space:
-            if src[1] == 7:                                         #verify if the paw is at its start line
+            if src[1] == 6:                                         #verify if the paw is at its start line
                 if dest[1] == src[1]-1 or dest[1] == src[1]-2:      #verify if the destionation is 1 or 2 more areas than at the start
                     if dest[2] == src[2]:                           #verify if the column of the destination is the same with the source
                         return (True)
@@ -28,7 +28,7 @@ def paw_move(table, user, src, dest, pieces, empty_space):          #paw's movem
             print("you can not move here")
             return (False)
         if table[dest[1]][dest[2]] == empty_space:
-            if src[1] == 2:                                         #verify if the paw is at its start line
+            if src[1] == 1:                                         #verify if the paw is at its start line
                 if dest[1] == src[1]+1 or dest[1] == src[1]+2:      #verify if the destionation is 1 or 2 more areas than at the start
                     if dest[2] == src[2]:                           #verify if the column of the destination is the same with the source
                         return (True)

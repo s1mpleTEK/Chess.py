@@ -121,7 +121,7 @@ def detection_piece(table, user, src, dest):                                    
 
 def move_pieces(table, user, src, dest):                                #update board and move chess piece
     if user[2] == 1:
-        if table[src[1]][src[2]] == pieces[1][0] and dest[1] == 1:      #verify if the paw of player 1 moves on the last line for evolve
+        if table[src[1]][src[2]] == pieces[1][0] and dest[1] == 0:      #verify if the paw of player 1 moves on the last line for evolve
             table = paw_evolution(table, src, pieces[1])
         if table[dest[1]][dest[2]] == empty_space:                      #verify if the destination of the chess piece is empty
             table[dest[1]][dest[2]] = table[src[1]][src[2]]             #move the chess piece to their destination
@@ -130,7 +130,7 @@ def move_pieces(table, user, src, dest):                                #update 
             table[dest[1]][dest[2]] = table[src[1]][src[2]]             #move the chess piece to thier destination
             table[src[1]][src[2]] = empty_space                         #put a empty space at the source of the chess piece
     elif user[2] == 2:
-        if table[src[1]][src[2]] == pieces[0][0] and dest[1] == 8:      #verify if the paw of player 2 moves on the last line for evolve
+        if table[src[1]][src[2]] == pieces[0][0] and dest[1] == 7:      #verify if the paw of player 2 moves on the last line for evolve
             table = paw_evolution(table, src, pieces[0])
         if table[dest[1]][dest[2]] == empty_space:                      #verify if the destination of the chess piece is empty
             table[dest[1]][dest[2]] = table[src[1]][src[2]]             #move the chess piece to their destination
