@@ -9,6 +9,7 @@ from chess_pieces_move.bishop import bishop_move
 from chess_pieces_move.rook import rook_move
 from chess_pieces_move.queen import queen_move
 from chess_pieces_move.king import king_move
+from chess_pieces_move.special_move import castling_move
 
 empty_space = "_"
 corner = "¤"
@@ -16,6 +17,7 @@ pieces =    [[u"\u2659", u"\u2658", u"\u2657", u"\u2656", u"\u2655", u"\u2654"],
             [u"\u265F", u"\u265E", u"\u265D", u"\u265C", u"\u265B", u"\u265A"]]         #pawn, knight, bishop, rook, queen, king (black)
 area =      [["A", "B", "C", "D", "E", "F", "G", "H"],                                  #x axis
             [1, 2, 3, 4, 5, 6, 7, 8]]                                                   #y axis
+castling = [0, 0]                                                                       #player 2, player 1
 
 def set_user():                                         #set name for players
     user =   [input("Player 1 enter your name: "),      #name of player 1
@@ -115,7 +117,12 @@ def detection_piece(table, user, src, dest):                                    
             if queen_move(table, user, src, dest, pieces, empty_space) == True:     #read queen's movements script
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][5]:                                   #if chess piece equal king
-            if king_move(table, user, src, dest, pieces, empty_space) == True:      #read king's movements script
+            if castling[j] == 0 and castling_move(table, user, src, dest, empty_space) == True\
+            and table[dest[1]][dest[2]] == pieces[j][3]:
+                castling[j] = 1
+                print ("castling:",castling)
+                return (move_pieces(table, user, src, dest))
+            elif king_move(table, user, src, dest, pieces, empty_space) == True:      #read king's movements script
                 return (move_pieces(table, user, src, dest))
     return (game_loop(table, user))
 
@@ -123,7 +130,23 @@ def move_pieces(table, user, src, dest):                                #update 
     if user[2] == 1:
         if table[src[1]][src[2]] == pieces[1][0] and dest[1] == 1:      #verify if the paw of player 1 moves on the last line for evolve
             table = paw_evolution(table, src, pieces[1])
-        if table[dest[1]][dest[2]] == empty_space:                      #verify if the destination of the chess piece is empty
+        if castling[1] == 1:
+            if dest[1] == 8:
+                print("nice")
+                if dest[2] == 1:
+                    tmp = table[dest[1]][dest[2]]
+                    table[dest[1]][dest[2]] = empty_space
+                    table[8][4] = tmp
+                    table[8][3] = table[src[1]][src[2]]
+                    table[src[1]][src[2]] = empty_space
+                elif dest[2] == 8:
+                    tmp = table[dest[1]][dest[2]]
+                    table[dest[1]][dest[2]] = empty_space
+                    table[8][6] = tmp
+                    table[8][7] = table[src[1]][src[2]]
+                    table[src[1]][src[2]] = empty_space
+            castling[1] = -1
+        elif table[dest[1]][dest[2]] == empty_space:                      #verify if the destination of the chess piece is empty
             table[dest[1]][dest[2]] = table[src[1]][src[2]]             #move the chess piece to their destination
             table[src[1]][src[2]] = empty_space                         #put a empty space at the source of the chess piece
         elif table[dest[1]][dest[2]] in pieces[0]:                      #verify if the destination of the chess piece is possessed by an opposent's chess piece
@@ -132,7 +155,22 @@ def move_pieces(table, user, src, dest):                                #update 
     elif user[2] == 2:
         if table[src[1]][src[2]] == pieces[0][0] and dest[1] == 8:      #verify if the paw of player 2 moves on the last line for evolve
             table = paw_evolution(table, src, pieces[0])
-        if table[dest[1]][dest[2]] == empty_space:                      #verify if the destination of the chess piece is empty
+        if castling[0] == 1:
+            if dest[1] == 1:
+                if dest[2] == 1:
+                    tmp = table[dest[1]][dest[2]]
+                    table[dest[1]][dest[2]] = empty_space
+                    table[1][4] = tmp
+                    table[1][3] = table[src[1]][src[2]]
+                    table[src[1]][src[2]] = empty_space
+                elif dest[2] == 8:
+                    tmp = table[dest[1]][dest[2]]
+                    table[dest[1]][dest[2]] = empty_space
+                    table[1][6] = tmp
+                    table[1][7] = table[src[1]][src[2]]
+                    table[src[1]][src[2]] = empty_space
+            castling[0] = -1
+        elif table[dest[1]][dest[2]] == empty_space:                      #verify if the destination of the chess piece is empty
             table[dest[1]][dest[2]] = table[src[1]][src[2]]             #move the chess piece to their destination
             table[src[1]][src[2]] = empty_space                         #put a empty space at the source of the chess piece
         elif table[dest[1]][dest[2]] in pieces[1]:                      #verify if the destination of the chess piece is possessed by an opposent's chess piece
