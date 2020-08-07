@@ -18,6 +18,8 @@ pieces =    [[u"\u2659", u"\u2658", u"\u2657", u"\u2656", u"\u2655", u"\u2654"],
 area =      [["A", "B", "C", "D", "E", "F", "G", "H"],                                  #x axis
             [1, 2, 3, 4, 5, 6, 7, 8]]                                                   #y axis
 castling = [0, 0]                                                                       #player 2, player 1
+rooks_move = [[0, 0], [0, 0]]                                                           #player 2: left rook, right rook/player 1: left rook, right rook
+kings_move = [0, 0]                                                                     #player 2: king/player 1: king
 
 def set_user():                                         #set name for players
     user =   [input("Player 1 enter your name: "),      #name of player 1
@@ -112,17 +114,26 @@ def detection_piece(table, user, src, dest):                                    
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][3]:                                   #if chess piece equal rook
             if rook_move(table, user, src, dest, pieces, empty_space) == True:      #read rook's movements script
+                if src[1] == 7*j+1:                                                 #check if the src equal 1 or 8
+                    if src[2] == 1:                                                 #check if src equal 1 for column
+                        rooks_move[j][0] = 1                                        #add 1 if the left rook moves
+                    elif src[2] == 8:                                               #check if src equal 8 for column
+                        rooks_move[j][1] = 1                                        #add 1 if the right rook moves
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][4]:                                   #if chess piece equal queen
             if queen_move(table, user, src, dest, pieces, empty_space) == True:     #read queen's movements script
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][5]:                                   #if chess piece equal king
-            if castling[j] == 0 and castling_move(table, user, src, dest, empty_space) == True\
-            and table[dest[1]][dest[2]] == pieces[j][3]:
-                castling[j] = 1
-                print ("castling:",castling)
+            if castling[j] == 0 and\
+            castling_move(table, user, src, dest, empty_space, rooks_move) == True\
+            and table[dest[1]][dest[2]] == pieces[j][3] and kings_move[j] == 0:     #verify if the destination is a rook, the player has already did a castling and if the castling is legal
+                castling[j] = 1                                                     #if castling equal 1 it means that the player did or has did a castling
                 return (move_pieces(table, user, src, dest))
-            elif king_move(table, user, src, dest, pieces, empty_space) == True:      #read king's movements script
+            elif castling[j] == 0 and kings_move[j] == 1\
+            and table[dest[1]][dest[2]] == pieces[j][3]:                            #if the king's player has already moved and that the player did not of castling
+                print("your king has already moved")
+            if king_move(table, user, src, dest, pieces, empty_space) == True:      #read king's movements script
+                kings_move[j] = 1                                                   #if kings_move equal 1 it means that the king has already moved
                 return (move_pieces(table, user, src, dest))
     return (game_loop(table, user))
 
@@ -130,22 +141,21 @@ def move_pieces(table, user, src, dest):                                #update 
     if user[2] == 1:
         if table[src[1]][src[2]] == pieces[1][0] and dest[1] == 1:      #verify if the paw of player 1 moves on the last line for evolve
             table = paw_evolution(table, src, pieces[1])
-        if castling[1] == 1:
-            if dest[1] == 8:
-                print("nice")
-                if dest[2] == 1:
-                    tmp = table[dest[1]][dest[2]]
-                    table[dest[1]][dest[2]] = empty_space
-                    table[8][4] = tmp
-                    table[8][3] = table[src[1]][src[2]]
-                    table[src[1]][src[2]] = empty_space
-                elif dest[2] == 8:
-                    tmp = table[dest[1]][dest[2]]
-                    table[dest[1]][dest[2]] = empty_space
-                    table[8][6] = tmp
-                    table[8][7] = table[src[1]][src[2]]
-                    table[src[1]][src[2]] = empty_space
-            castling[1] = -1
+        if castling[1] == 1:                                            #verify if the castling is on
+            if dest[1] == 8:                                            #verify the line of the destination
+                if dest[2] == 1:                                        #check the left rook for special movement (big castling/queenside)
+                    tmp = table[dest[1]][dest[2]]                       #save the rook
+                    table[dest[1]][dest[2]] = empty_space               #set an empty space at the destination (rook place/a1)
+                    table[8][4] = tmp                                   #set the rook at is new place (d1)
+                    table[8][3] = table[src[1]][src[2]]                 #set the king at new place (c1)
+                    table[src[1]][src[2]] = empty_space                 #set an empty space at oldest place of the king
+                elif dest[2] == 8:                                      #check the left rook for special movement (little castling/kingside)
+                    tmp = table[dest[1]][dest[2]]                       #save the rook
+                    table[dest[1]][dest[2]] = empty_space               #set an empty space at the destination (rook place/h1)
+                    table[8][6] = tmp                                   #set the rook at is new place (f1)
+                    table[8][7] = table[src[1]][src[2]]                 #set the king at new place (g1)
+                    table[src[1]][src[2]] = empty_space                 #set an empty space at oldest place of the king
+            castling[1] = -1                                            #set castling at -1 because the player 1 use their castling of the game
         elif table[dest[1]][dest[2]] == empty_space:                      #verify if the destination of the chess piece is empty
             table[dest[1]][dest[2]] = table[src[1]][src[2]]             #move the chess piece to their destination
             table[src[1]][src[2]] = empty_space                         #put a empty space at the source of the chess piece
@@ -157,20 +167,20 @@ def move_pieces(table, user, src, dest):                                #update 
             table = paw_evolution(table, src, pieces[0])
         if castling[0] == 1:
             if dest[1] == 1:
-                if dest[2] == 1:
-                    tmp = table[dest[1]][dest[2]]
-                    table[dest[1]][dest[2]] = empty_space
-                    table[1][4] = tmp
-                    table[1][3] = table[src[1]][src[2]]
-                    table[src[1]][src[2]] = empty_space
-                elif dest[2] == 8:
-                    tmp = table[dest[1]][dest[2]]
-                    table[dest[1]][dest[2]] = empty_space
-                    table[1][6] = tmp
-                    table[1][7] = table[src[1]][src[2]]
-                    table[src[1]][src[2]] = empty_space
-            castling[0] = -1
-        elif table[dest[1]][dest[2]] == empty_space:                      #verify if the destination of the chess piece is empty
+                if dest[2] == 1:                                        #check the left rook for special movement (big castling/queenside)
+                    tmp = table[dest[1]][dest[2]]                       #save the rook
+                    table[dest[1]][dest[2]] = empty_space               #set an empty space at the destination (rook place/a8)
+                    table[1][4] = tmp                                   #set the rook at is new place (d8)
+                    table[1][3] = table[src[1]][src[2]]                 #set the king at new place (c8)
+                    table[src[1]][src[2]] = empty_space                 #set an empty space at oldest place of the king
+                elif dest[2] == 8:                                      #check the left rook for special movement (little castling/kingside)
+                    tmp = table[dest[1]][dest[2]]                       #save the rook
+                    table[dest[1]][dest[2]] = empty_space               #set an empty space at the destination (rook place/h8)
+                    table[1][6] = tmp                                   #set the rook at is new place (f8)
+                    table[1][7] = table[src[1]][src[2]]                 #set the king at new place (g8)
+                    table[src[1]][src[2]] = empty_space                 #set an empty space at oldest place of the king
+            castling[0] = -1                                            #set castling at -1 because the player 2 use their castling of the game
+        elif table[dest[1]][dest[2]] == empty_space:                    #verify if the destination of the chess piece is empty
             table[dest[1]][dest[2]] = table[src[1]][src[2]]             #move the chess piece to their destination
             table[src[1]][src[2]] = empty_space                         #put a empty space at the source of the chess piece
         elif table[dest[1]][dest[2]] in pieces[1]:                      #verify if the destination of the chess piece is possessed by an opposent's chess piece
