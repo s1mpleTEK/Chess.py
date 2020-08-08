@@ -8,7 +8,7 @@ def castling_move(table, user, src, dest, empty_space, rooks_move):     #verific
                     if table[8][i] != empty_space:                      #verify if the space between them it is empty
                         return (False)                                  #not empty
                     return (True)                                       #empty
-            elif rooks_move[1][0] != 0:                                 #if the rook has already moved
+            elif dest[2] == 1 and rooks_move[1][0] != 0:                #if the rook has already moved
                 print("this rook has already moved")
                 return (False)
             if dest[2] == 8 and rooks_move[1][1] == 0:                  #check the right rook and verify if it has already moved
@@ -16,7 +16,7 @@ def castling_move(table, user, src, dest, empty_space, rooks_move):     #verific
                     if table[8][i] != empty_space:                      #verify if the space between them it is empty
                         return (False)                                  #not empty
                     return (True)                                       #empty
-            elif rooks_move[1][1] != 0:                                 #if the rook has already moved
+            elif dest[2] == 8 and rooks_move[1][1] != 0:                #if the rook has already moved
                 print("this rook has already moved")
                 return (False)
     elif user[2] == 2:
@@ -26,7 +26,7 @@ def castling_move(table, user, src, dest, empty_space, rooks_move):     #verific
                     if table[1][i] != empty_space:                      #verify if the space between them it is empty
                         return (False)                                  #not empty
                     return (True)                                       #empty
-            elif rooks_move[0][0] != 0:                                 #if the rook has already moved
+            elif dest[2] == 1 and rooks_move[0][0] != 0:                #if the rook has already moved
                 print("this rook has already moved")
                 return (False)
             if dest[2] == 8 and rooks_move[0][1] == 0:                  #check the right rook and verify if it has already moved
@@ -34,6 +34,6 @@ def castling_move(table, user, src, dest, empty_space, rooks_move):     #verific
                     if table[1][i] != empty_space:                      #verify if the space between them it is empty
                         return (False)                                  #not empty
                     return (True)                                       #empty
-            elif rooks_move[0][1] != 0:                                 #if the rook has already moved
+            elif dest[2] == 8 and rooks_move[0][1] != 0:                #if the rook has already moved
                 print("this rook has already moved")
                 return (False)

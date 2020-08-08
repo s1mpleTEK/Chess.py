@@ -124,9 +124,11 @@ def detection_piece(table, user, src, dest):                                    
             if queen_move(table, user, src, dest, pieces, empty_space) == True:     #read queen's movements script
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][5]:                                   #if chess piece equal king
-            if castling[j] == 0 and\
-            castling_move(table, user, src, dest, empty_space, rooks_move) == True\
-            and table[dest[1]][dest[2]] == pieces[j][3] and kings_move[j] == 0:     #verify if the destination is a rook, the player has already did a castling and if the castling is legal
+            if castling[j] == -1:
+                print("you have already did a castling")
+            elif table[dest[1]][dest[2]] == pieces[j][3] and castling[j] == 0 and\
+            kings_move[j] == 0 and\
+            castling_move(table, user, src, dest, empty_space, rooks_move) == True: #verify if the destination is a rook, the player has already did a castling and if the castling is legal
                 castling[j] = 1                                                     #if castling equal 1 it means that the player did or has did a castling
                 return (move_pieces(table, user, src, dest))
             elif castling[j] == 0 and kings_move[j] == 1\
