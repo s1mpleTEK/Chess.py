@@ -114,18 +114,20 @@ def detection_piece(table, user, src, dest):                                    
         if table[src[1]][src[2]] == pieces[j][3]:                                   #if chess piece equal rook
             if rook_move(table, user, src, dest, pieces, empty_space) == True:      #read rook's movements script
                 if src[1] == 7*j:                                                 #check if the src equal 1 or 8
-                    if src[2] == 0:                                                 #check if src equal 1 for column
+                    if src[2] == 1:                                                 #check if src equal 1 for column
                         rooks_move[j][0] = 1                                        #add 1 if the left rook moves
-                    elif src[2] == 7:                                               #check if src equal 8 for column
+                    elif src[2] == 8:                                               #check if src equal 8 for column
                         rooks_move[j][1] = 1                                        #add 1 if the right rook moves
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][4]:                                   #if chess piece equal queen
             if queen_move(table, user, src, dest, pieces, empty_space) == True:     #read queen's movements script
                 return (move_pieces(table, user, src, dest))
         if table[src[1]][src[2]] == pieces[j][5]:                                   #if chess piece equal king
-            if castling[j] == 0 and\
-            castling_move(table, user, src, dest, empty_space, rooks_move) == True\
-            and table[dest[1]][dest[2]] == pieces[j][3] and kings_move[j] == 0:     #verify if the destination is a rook, the player has already did a castling and if the castling is legal
+            if castling[j] == -1:
+                print("you have already did a castling")
+            elif table[dest[1]][dest[2]] == pieces[j][3] and castling[j] == 0 and\
+            kings_move[j] == 0 and\
+            castling_move(table, user, src, dest, empty_space, rooks_move) == True: #verify if the destination is a rook, the player has already did a castling and if the castling is legal
                 castling[j] = 1                                                     #if castling equal 1 it means that the player did or has did a castling
                 return (move_pieces(table, user, src, dest))
             elif castling[j] == 0 and kings_move[j] == 1\
