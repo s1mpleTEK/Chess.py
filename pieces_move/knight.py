@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-def knight_move(table, user, path_pieces, pieces):                #knight's movements script
+def knight_move(table, user, path_pieces, entity):                #knight's movements script
     calc_y = int(path_pieces[1][1]-path_pieces[0][1])                                #calcul if the knight goes up or down
     calc_x = int(path_pieces[1][2]-path_pieces[0][2])                                #calcul if the knight goes right or left
 
@@ -9,11 +9,11 @@ def knight_move(table, user, path_pieces, pieces):                #knight's move
         return (False)
 
     if user[2] == 1:
-        if table[path_pieces[1][1]][path_pieces[1][2]] in pieces[1]:                #verify that the player can't move on his chess pieces
+        if table[path_pieces[1][1]][path_pieces[1][2]] in entity[1]:                #verify that the player can't move on his chess pieces
             print("you can not move here")
             return (False)
     elif user[2] == 2:
-        if table[path_pieces[1][1]][path_pieces[1][2]] in pieces[0]:                #verify that the player can't move on his chess pieces
+        if table[path_pieces[1][1]][path_pieces[1][2]] in entity[0]:                #verify that the player can't move on his chess pieces
             print("you can not move here")
             return (False)
 
