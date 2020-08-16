@@ -28,7 +28,8 @@ path_pieces =   [["","",""],                                                    
 def set_user():                                         #set name for players
     user =   [input("Player 1 enter your name: "),      #name of player 1
             input("Player 2 enter your name: "),        #name of player 2
-            1]                                          #player turn: 1 means player 1 & 2 means player 2 & 0 means someone win & -1 means tie
+            1,                                          #player turn: 1 means player 1 & 2 means player 2 & 0 means someone win & -1 means tie
+            0]
 
     return (user)
 
@@ -211,13 +212,21 @@ def move_pieces(table, user):                                #update board and m
 
 def game_condition(table, tmp_table, user):
     tech_check_status[user[2]-1] = check(table, tmp_table, user, entity)
+
     if user[2] == 1:
         if tech_check_status[0] == 0:
+            user[3] = 1
+            if check(table, tmp_table, user, entity) == 2:
+                print("The player", user[1],"is under check now")
             user[2] = 2
     elif user[2] == 2:
         if tech_check_status[1] == 0:
+            user[3] = 1
+            if check(table, tmp_table, user, entity) == 2:
+                print("The player", user[0],"is under check now")
             user[2] = 1
 
+    user[3] = 0
     return (user)
 
 def display_table(table):       #display game board
