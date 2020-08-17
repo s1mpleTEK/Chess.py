@@ -37,11 +37,6 @@ def check(table, tmp_table, user, entity):
                         king_pose_after[1] = j
             if check_verification(tmp_table, entity[1], entity[0], entity[2], king_pose_before, user) == True:
                 if check_verification(table, entity[1], entity[0], entity[2],king_pose_after, user) == True:
-                    return (1)
-                else:
-                    return (0)
-            else:
-                if check_verification(table, entity[1], entity[0], entity[2],king_pose_after, user) == True:
                     return (2)
                 else:
                     return (0)
@@ -76,18 +71,15 @@ def check(table, tmp_table, user, entity):
                         king_pose_after[1] = j
             if check_verification(tmp_table, entity[0], entity[1], entity[2], king_pose_before, user) == True:
                 if check_verification(table, entity[0], entity[1], entity[2],king_pose_after, user) == True:
-                    return (1)
-                else:
-                    return (0)
-            else:
-                if check_verification(table, entity[0], entity[1], entity[2],king_pose_after, user) == True:
                     return (2)
                 else:
                     return (0)
 
 def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user):
     try:
-        for i in range (1,9):                                           #browse the line and column and diagonal
+        for i in range (1,9):
+            if (king_pose[0]+i > 8):
+                break
             if board[king_pose[0]+i][king_pose[1]] != empty_space[0]:        #⭣
                 if board[king_pose[0]+i][king_pose[1]] in entity_me:
                     break
@@ -97,7 +89,9 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
         pass
     
     try:
-        for i in range (1,9):                                           #browse the line and column and diagonal
+        for i in range (1,9):
+            if (king_pose[0]-i < 1):
+                break
             if board[king_pose[0]-i][king_pose[1]] != empty_space[0]:        #⭡
                 if board[king_pose[0]-i][king_pose[1]] in entity_me:
                     break
@@ -108,6 +102,8 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
 
     try:
         for i in range (1,9):
+            if (king_pose[1]+i > 8):
+                break
             if board[king_pose[0]][king_pose[1]+i] != empty_space[0]:        #⭢
                 if board[king_pose[0]][king_pose[1]+i] in entity_me:
                     break
@@ -118,6 +114,8 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
 
     try:
         for i in range (1,9):
+            if (king_pose[1]-i < 0):
+                break
             if board[king_pose[0]][king_pose[1]-i] != empty_space[0]:        #⭠
                 if board[king_pose[0]][king_pose[1]-i] in entity_me:
                     break
@@ -128,6 +126,8 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
 
     try:
         for i in range (1,9):
+            if (king_pose[0]+i > 8 or king_pose[1]+i > 8):
+                break
             if board[king_pose[0]+i][king_pose[1]+i] != empty_space[0]:      #⭨
                 if board[king_pose[0]+i][king_pose[1]+i] in entity_me:
                     break
@@ -140,6 +140,8 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
 
     try:
         for i in range (1,9):
+            if (king_pose[0]+i > 8 or king_pose[1]-i < 0):
+                break
             if board[king_pose[0]+i][king_pose[1]-i] != empty_space[0]:      #⭩
                 if board[king_pose[0]+i][king_pose[1]-i] in entity_me:
                     break
@@ -152,6 +154,8 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
 
     try:
         for i in range (1,9):
+            if (king_pose[0]-i < 0 or king_pose[1]+i > 8):
+                break
             if board[king_pose[0]-i][king_pose[1]+i] != empty_space[0]:      #⭧
                 if board[king_pose[0]-i][king_pose[1]+i] in entity_me:
                     break
@@ -164,6 +168,8 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
 
     try:
         for i in range (1,9):
+            if (king_pose[0]-i < 0 or king_pose[1]-i < 0):
+                break
             if board[king_pose[0]-i][king_pose[1]-i] != empty_space[0]:      #⭦
                 if board[king_pose[0]-i][king_pose[1]-i] in entity_me:
                     break
@@ -175,49 +181,65 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
         pass
 
     try:
-        if board[king_pose[0]+2][king_pose[1]+1] == entity_ad[1]:     #⮧
+        if (king_pose[0]+2 > 8 or king_pose[1]+1 > 8):
+            pass
+        elif board[king_pose[0]+2][king_pose[1]+1] == entity_ad[1]:     #⮧
             return (True)
     except IndexError:
         pass
 
     try:
-        if board[king_pose[0]+1][king_pose[1]+2] == entity_ad[1]:     #⮡
+        if (king_pose[0]+1 > 8 or king_pose[1]+2 > 8):
+            pass
+        elif board[king_pose[0]+1][king_pose[1]+2] == entity_ad[1]:     #⮡
             return (True)
     except IndexError:
         pass
 
     try:
-        if board[king_pose[0]+2][king_pose[1]-1] == entity_ad[1]:     #⮦
+        if (king_pose[0]+2 > 8 or king_pose[1]-1 < 0):
+            pass
+        elif board[king_pose[0]+2][king_pose[1]-1] == entity_ad[1]:     #⮦
             return (True)
     except IndexError:
         pass
 
     try:
-        if board[king_pose[0]+1][king_pose[1]-2] == entity_ad[1]:     #⮠
+        if (king_pose[0]+1 > 8 or king_pose[1]-2 < 0):
+            pass
+        elif board[king_pose[0]+1][king_pose[1]-2] == entity_ad[1]:     #⮠
             return (True)
     except IndexError:
         pass
 
     try:
-        if board[king_pose[0]-2][king_pose[1]+1] == entity_ad[1]:     #⮥
+        if (king_pose[0]-2 < 0 or king_pose[1]+1 > 8):
+            pass
+        elif board[king_pose[0]-2][king_pose[1]+1] == entity_ad[1]:     #⮥
             return (True)
     except IndexError:
         pass
 
     try:
-        if board[king_pose[0]-1][king_pose[1]+2] == entity_ad[1]:     #⮣
+        if (king_pose[0]-1 < 0 or king_pose[1]+2 > 8):
+            pass
+        elif board[king_pose[0]-1][king_pose[1]+2] == entity_ad[1]:     #⮣
             return (True)
     except IndexError:
         pass
 
     try:
-        if board[king_pose[0]-2][king_pose[1]-1] == entity_ad[1]:     #⮤
+        if (king_pose[0]-2 < 0 or king_pose[1]-1 < 0):
+            pass
+        elif board[king_pose[0]-2][king_pose[1]-1] == entity_ad[1]:     #⮤
             return (True)
     except IndexError:
         pass
 
     try:
-        if board[king_pose[0]-1][king_pose[1]-2] == entity_ad[1]:     #⮢
+        if (king_pose[0]-1 < 0 or king_pose[1]-2 < 0):
+            pass
+        elif board[king_pose[0]-1][king_pose[1]-2] == entity_ad[1]:     #⮢
             return (True)
     except IndexError:
         pass
