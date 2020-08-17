@@ -11,25 +11,25 @@ from pieces_move_light.queen import queen_move
 from pieces_move_light.king import king_move
 from pieces_move_light.special_move import castling_move
 
-from chess_conditions_light.check_condition import only_check
+from chess_conditions_light.check_condition import check
 
 entity =        [[u"\u2659", u"\u2658", u"\u2657", u"\u2656", u"\u2655", u"\u2654"],        #pawn, knight, bishop, rook, queen, king (white) player 2
                 [u"\u265F", u"\u265E", u"\u265D", u"\u265C", u"\u265B", u"\u265A"],         #pawn, knight, bishop, rook, queen, king (black) player 1
-                ["_", "¤"]]                                                                 #empty_space, corner
+                ['_', "¤"]]                                                                 #empty_space, corner
 area =          [["A", "B", "C", "D", "E", "F", "G", "H"],                                  #x axis
                 [1, 2, 3, 4, 5, 6, 7, 8]]                                                   #y axis
 castling =      [0, 0]                                                                      #player 2, player 1
 rooks_move =    [[0, 0], [0, 0]]                                                            #player 2: left rook, right rook/player 1: left rook, right rook
-kings_move =    [0, 0]                                                                      #player 2: king/player 1: king
-tmp_table = 0                                                                               #save the previous board
-check =         [0, 0]                                                                      #player 1, player 2 / 1 means check, 2 means check mate
+kings_move =    [0, 0]                                                                      #player 2: king/player 1: king  
+tech_check_status =  [0, 0]                                                                      #player 1, player 2 / 1 means check before, 2 means check after and 3 means check mate
 path_pieces =   [["","",""],                                                                #source of the pieces
                 ["","",""]]                                                                 #destination of the pieces
 
 def set_user():                                         #set name for players
     user =   [input("Player 1 enter your name: "),      #name of player 1
             input("Player 2 enter your name: "),        #name of player 2
-            1]                                          #player turn: 1 means O & 2 means X & 0 means someone win & -1 means tie
+            1,                                          #player turn: 1 means player 1 & 2 means player 2 & 0 means someone win & -1 means tie
+            0]
 
     return (user)
 
@@ -45,6 +45,19 @@ def set_table():                                    #init game board
         table[j][0] = area[1][-(j+1)]       #1>2>3>4>5>6>7>8
 
     return (set_pieces(table))
+
+def set_tmp_table():                                    #init game board
+    table = np.zeros((9,9), dtype=str)            #init empty list 10x10 ([9][9])
+    for i in range (9):                           #set _ in every line
+        table[i] = entity[2][0]
+
+    table[8][0] = entity[2][1]                         #set ¤ in every corner and browse y of table (first line and last line)
+    for j in range (1,9):                       #browse x of table
+        table[8][j] = area[0][j-1]            #A>B>C>D>E>F>G>H
+    for j in range (8):                       #browse y of table and set the number 8 to 1 at [1][0] to [8][0] and [1][9] to [8][9]
+        table[j][0] = area[1][-(j+1)]       #1>2>3>4>5>6>7>8
+
+    return (table)
 
 def set_pieces(table):                                              #set all pieces on the board
     for j in range (1,3):                                           #j equal 1 and 2 // set white pieces when j=1 and set black pieces when j=2
@@ -193,15 +206,26 @@ def move_pieces(table, user):                                #update board and m
             table[path_pieces[1][1]][path_pieces[1][2]] = table[path_pieces[0][1]][path_pieces[0][2]]             #move the chess piece to thier destination
             table[path_pieces[0][1]][path_pieces[0][2]] = entity[2][0]                         #put a empty space at the source of the chess piece
 
-    display_table(table)
     return (table)
 
-def game_condition(table, user):
-    if user[2] == 1:
-        user[2] = 2
-    else:
-        user[2] = 1
+def game_condition(table, tmp_table, user):
+    tech_check_status[user[2]-1] = check(table, tmp_table, user, entity)
+    print(tech_check_status)
 
+    if user[2] == 1:
+        if tech_check_status[0] == 0:
+            # user[3] = 1
+            # if check(table, tmp_table, user, entity) == 2:
+            #     print("The player", user[1],"is under check now")
+            user[2] = 2
+    elif user[2] == 2:
+        if tech_check_status[1] == 0:
+            # user[3] = 1
+            # if check(table, tmp_table, user, entity) == 2:
+            #     print("The player", user[0],"is under check now")
+            user[2] = 1
+
+    user[3] = 0
     return (user)
 
 def display_table(table):       #display game board
@@ -213,15 +237,64 @@ def display_table(table):       #display game board
     print("")
     return
 
+def load_table(table, tmp_table):
+    for i in range (9):
+        for j in range (9):
+            tmp_table[i][j] = table[i][j]
+    
+    return (tmp_table)
+
 if __name__ == "__main__":
     try:
         user = set_user()                           #set name for player
         table = set_table()                         #init game board
+        tmp_table = set_tmp_table()
         display_table(table)                        #display game board
         while (True):
-            print(user[user[2]-1],"'s turn")
+            if (tech_check_status[user[2]-1] == 0):
+                print(user[user[2]-1],"'s turn")
+                tmp_table = load_table(table, tmp_table)
             table = game_loop(table, user)          #interaction with the player
-            user = game_condition(table, user)      
+            user = game_condition(table, tmp_table, user)
+            if (tech_check_status[user[2]-1] == 1):
+                table = load_table(tmp_table, table)
+                print("you can not do this move because you already are under check")
+
+                if user[2] == 1:
+                    if kings_move[1] == 1 and castling[1] == 0:
+                        if tmp_table[path_pieces[0][1]][path_pieces[0][2]] == entity[1][5]:
+                            if table[path_pieces[0][1]][path_pieces[0][2]] == entity[1][5]:
+                                kings_move[1] = 0
+                elif user[2] == 2:
+                    if kings_move[0] == 1 and castling[0] == 0:
+                        if tmp_table[path_pieces[0][1]][path_pieces[0][2]] == entity[0][5]:
+                            if table[path_pieces[0][1]][path_pieces[0][2]] == entity[0][5]:
+                                kings_move[0] = 0
+            if (tech_check_status[user[2]-1] == 2):
+                table = load_table(tmp_table, table)
+                print("you can not do this move because you are going under check")
+
+                if user[2] == 1:
+                    if castling[1] == -1:
+                        if path_pieces[0][1] == 7 and path_pieces[0][2] == 5 and tmp_table[path_pieces[0][1]][path_pieces[0][2]] == entity[1][5]:
+                            if path_pieces[1][1] == 7 and path_pieces[1][2] == 1 and tmp_table[path_pieces[1][1]][path_pieces[1][2]] == entity[1][3]:
+                                if table[7][3] != entity[1][5] and table[7][4] != entity[1][3]:
+                                    castling[1] = 0
+                            elif path_pieces[1][1] == 7 and path_pieces[1][2] == 8 and tmp_table[path_pieces[1][1]][path_pieces[1][2]] == entity[1][3]:
+                                if table[7][7] != entity[1][5] and table[7][6] != entity[1][3]:
+                                    castling[1] = 0
+                elif user[2] == 2:
+                    if castling[0] == -1:
+                        if path_pieces[0][1] == 0 and path_pieces[0][2] == 5 and tmp_table[path_pieces[0][1]][path_pieces[0][2]] == entity[0][5]:
+                            if path_pieces[1][1] == 0 and path_pieces[1][2] == 1 and tmp_table[path_pieces[1][1]][path_pieces[1][2]] == entity[0][3]:
+                                if table[0][3] != entity[0][5] and table[0][4] != entity[0][3]:
+                                    castling[0] = 0
+                            elif path_pieces[1][1] == 0 and path_pieces[1][2] == 8 and tmp_table[path_pieces[1][1]][path_pieces[1][2]] == entity[0][3]:
+                                if table[0][7] != entity[0][5] and table[0][6] != entity[0][3]:
+                                    castling[0] = 0
+            if (tech_check_status[user[2]-1] == 0):
+                tmp_table = load_table(table, tmp_table)                       #save previous move
+                display_table(table)
             if user[2] == 0 or user[2] == -1:
                 break
     except (EOFError, KeyboardInterrupt) as error:
