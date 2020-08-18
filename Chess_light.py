@@ -214,15 +214,15 @@ def game_condition(table, tmp_table, user):
 
     if user[2] == 1:
         if tech_check_status[0] == 0:
-            # user[3] = 1
-            # if check(table, tmp_table, user, entity) == 2:
-            #     print("The player", user[1],"is under check now")
+            user[3] = 1
+            if check(table, tmp_table, user, entity) == 2:
+                print("The player", user[1],"is under check now")
             user[2] = 2
     elif user[2] == 2:
         if tech_check_status[1] == 0:
-            # user[3] = 1
-            # if check(table, tmp_table, user, entity) == 2:
-            #     print("The player", user[0],"is under check now")
+            user[3] = 1
+            if check(table, tmp_table, user, entity) == 2:
+                print("The player", user[0],"is under check now")
             user[2] = 1
 
     user[3] = 0
