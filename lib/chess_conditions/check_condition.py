@@ -129,7 +129,7 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
             if board[king_pose[0]+i][king_pose[1]+i] != empty_space[0]:      #⭨
                 if board[king_pose[0]+i][king_pose[1]+i] in entity_me:
                     break
-                elif user[2] == 2 and board[king_pose[0]+1][king_pose[1]+1] == entity_ad[0]:
+                elif user[2] == 1 and board[king_pose[0]+1][king_pose[1]+1] == entity_ad[0]:
                     return (True)
                 elif board[king_pose[0]+i][king_pose[1]+i] == entity_ad[2] or board[king_pose[0]+i][king_pose[1]+i] == entity_ad[4]:
                     return (True)
@@ -143,7 +143,7 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
             if board[king_pose[0]+i][king_pose[1]-i] != empty_space[0]:      #⭩
                 if board[king_pose[0]+i][king_pose[1]-i] in entity_me:
                     break
-                elif user[2] == 2 and board[king_pose[0]+1][king_pose[1]-1] == entity_ad[0]:
+                elif user[2] == 1 and board[king_pose[0]+1][king_pose[1]-1] == entity_ad[0]:
                     return (True)
                 elif board[king_pose[0]+i][king_pose[1]-i] == entity_ad[2] or board[king_pose[0]+i][king_pose[1]-i] == entity_ad[4]:
                     return (True)
@@ -157,7 +157,7 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
             if board[king_pose[0]-i][king_pose[1]+i] != empty_space[0]:      #⭧
                 if board[king_pose[0]-i][king_pose[1]+i] in entity_me:
                     break
-                elif user[2] == 1 and board[king_pose[0]-1][king_pose[1]+1] == entity_ad[0]:
+                elif user[2] == 2 and board[king_pose[0]-1][king_pose[1]+1] == entity_ad[0]:
                     return (True)
                 elif board[king_pose[0]-i][king_pose[1]+i] == entity_ad[2] or board[king_pose[0]-i][king_pose[1]+i] == entity_ad[4]:
                     return (True)
@@ -171,7 +171,7 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
             if board[king_pose[0]-i][king_pose[1]-i] != empty_space[0]:      #⭦
                 if board[king_pose[0]-i][king_pose[1]-i] in entity_me:
                     break
-                elif user[2] == 1 and board[king_pose[0]-1][king_pose[1]-1] == entity_ad[0]:
+                elif user[2] == 2 and board[king_pose[0]-1][king_pose[1]-1] == entity_ad[0]:
                     return (True)
                 elif board[king_pose[0]-i][king_pose[1]-i] == entity_ad[2] or board[king_pose[0]-i][king_pose[1]-i] == entity_ad[4]:
                     return (True)
