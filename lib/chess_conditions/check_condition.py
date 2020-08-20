@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 
-king_pose_before = ["",""]
-king_pose_after = ["",""]
-
-
+class King:
+    king_pose_before = ["",""]
+    king_pose_after = ["",""]
 
 def check(table, tmp_table, user, entity):
     if user[2] == 1:
@@ -11,18 +10,18 @@ def check(table, tmp_table, user, entity):
             for i in range (1,9):
                 for j in range (1,9):
                     if tmp_table[i][j] == entity[1][5]:
-                        king_pose_before[0] = i
-                        king_pose_before[1] = j
+                        King.king_pose_before[0] = i
+                        King.king_pose_before[1] = j
                     if table[i][j] == entity[1][5]:
-                        king_pose_after[0] = i
-                        king_pose_after[1] = j
-            if check_verification(tmp_table, entity[0], entity[1], entity[2], king_pose_before, user) == True:
-                if check_verification(table, entity[0], entity[1], entity[2],king_pose_after, user) == True:
+                        King.king_pose_after[0] = i
+                        King.king_pose_after[1] = j
+            if check_verification(tmp_table, entity[0], entity[1], entity[2], King.king_pose_before, user) == True:
+                if check_verification(table, entity[0], entity[1], entity[2],King.king_pose_after, user) == True:
                     return (1)
                 else:
                     return (0)
             else:
-                if check_verification(table, entity[0], entity[1], entity[2],king_pose_after, user) == True:
+                if check_verification(table, entity[0], entity[1], entity[2],King.king_pose_after, user) == True:
                     return (2)
                 else:
                     return (0)
@@ -30,13 +29,13 @@ def check(table, tmp_table, user, entity):
             for i in range (1,9):
                 for j in range (1,9):
                     if tmp_table[i][j] == entity[0][5]:
-                        king_pose_before[0] = i
-                        king_pose_before[1] = j
+                        King.king_pose_before[0] = i
+                        King.king_pose_before[1] = j
                     if table[i][j] == entity[0][5]:
-                        king_pose_after[0] = i
-                        king_pose_after[1] = j
-            if check_verification(tmp_table, entity[1], entity[0], entity[2], king_pose_before, user) == True:
-                if check_verification(table, entity[1], entity[0], entity[2],king_pose_after, user) == True:
+                        King.king_pose_after[0] = i
+                        King.king_pose_after[1] = j
+            if check_verification(tmp_table, entity[1], entity[0], entity[2], King.king_pose_before, user) == True:
+                if check_verification(table, entity[1], entity[0], entity[2],King.king_pose_after, user) == True:
                     return (2)
                 else:
                     return (0)
@@ -45,18 +44,18 @@ def check(table, tmp_table, user, entity):
             for i in range (1,9):
                 for j in range (1,9):
                     if tmp_table[i][j] == entity[0][5]:
-                        king_pose_before[0] = i
-                        king_pose_before[1] = j
+                        King.king_pose_before[0] = i
+                        King.king_pose_before[1] = j
                     if table[i][j] == entity[0][5]:
-                        king_pose_after[0] = i
-                        king_pose_after[1] = j
-            if check_verification(tmp_table, entity[1], entity[0], entity[2], king_pose_before, user) == True:
-                if check_verification(table, entity[1], entity[0], entity[2],king_pose_after, user) == True:
+                        King.king_pose_after[0] = i
+                        King.king_pose_after[1] = j
+            if check_verification(tmp_table, entity[1], entity[0], entity[2], King.king_pose_before, user) == True:
+                if check_verification(table, entity[1], entity[0], entity[2],King.king_pose_after, user) == True:
                     return (1)
                 else:
                     return (0)
             else:
-                if check_verification(table, entity[1], entity[0], entity[2],king_pose_after, user) == True:
+                if check_verification(table, entity[1], entity[0], entity[2],King.king_pose_after, user) == True:
                     return (2)
                 else:
                     return (0)
@@ -64,13 +63,13 @@ def check(table, tmp_table, user, entity):
             for i in range (1,9):
                 for j in range (1,9):
                     if tmp_table[i][j] == entity[1][5]:
-                        king_pose_before[0] = i
-                        king_pose_before[1] = j
+                        King.king_pose_before[0] = i
+                        King.king_pose_before[1] = j
                     if table[i][j] == entity[1][5]:
-                        king_pose_after[0] = i
-                        king_pose_after[1] = j
-            if check_verification(tmp_table, entity[0], entity[1], entity[2], king_pose_before, user) == True:
-                if check_verification(table, entity[0], entity[1], entity[2],king_pose_after, user) == True:
+                        King.king_pose_after[0] = i
+                        King.king_pose_after[1] = j
+            if check_verification(tmp_table, entity[0], entity[1], entity[2], King.king_pose_before, user) == True:
+                if check_verification(table, entity[0], entity[1], entity[2],King.king_pose_after, user) == True:
                     return (2)
                 else:
                     return (0)

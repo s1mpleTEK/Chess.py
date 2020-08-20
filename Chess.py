@@ -1,19 +1,21 @@
 #!/usr/bin/python3
 
+import datetime as dt
 import numpy as np
 import re
+import os
 
-from pieces_move.paw import paw_move, paw_evolution
-from pieces_move.knight import knight_move
-from pieces_move.bishop import bishop_move
-from pieces_move.rook import rook_move
-from pieces_move.queen import queen_move
-from pieces_move.king import king_move
-from pieces_move.special_move import castling_move
+from lib.pieces_move.paw import paw_move, paw_evolution
+from lib.pieces_move.knight import knight_move
+from lib.pieces_move.bishop import bishop_move
+from lib.pieces_move.rook import rook_move
+from lib.pieces_move.queen import queen_move
+from lib.pieces_move.king import king_move
+from lib.pieces_move.special_move import castling_move
 
-from chess_conditions.check_condition import check
+from lib.chess_conditions.check_condition import check
 
-from game_history.history import history
+from lib.game_history.history import History, Os, history
 
 entity =        [[u"\u2659", u"\u2658", u"\u2657", u"\u2656", u"\u2655", u"\u2654"],        #pawn, knight, bishop, rook, queen, king (white) player 2
                 [u"\u265F", u"\u265E", u"\u265D", u"\u265C", u"\u265B", u"\u265A"],         #pawn, knight, bishop, rook, queen, king (black) player 1
@@ -296,13 +298,16 @@ if __name__ == "__main__":
                             elif path_pieces[1][1] == 1 and path_pieces[1][2] == 8 and tmp_table[path_pieces[1][1]][path_pieces[1][2]] == entity[0][3]:
                                 if table[1][7] != entity[0][5] and table[1][6] != entity[0][3]:
                                     castling[0] = 0
-
-            if (tech_check_status[user[2]-1] == 0):
+            if tech_check_status[user[2]-1] == 0:
                 history(table, tmp_table, path_pieces, entity)
-                tmp_table = load_table(table, tmp_table)                       #save previous move
-                display_table(table)
 
             if user[2] == 0 or user[2] == -1:
                 break
+
+            if (tech_check_status[user[2]-1] == 0):
+                tmp_table = load_table(table, tmp_table)                       #save previous move
+                display_table(table)
     except (EOFError, KeyboardInterrupt) as error:
+        if os.path.exists(Os.path_file):
+            os.close(History.file_history)
         exit()
