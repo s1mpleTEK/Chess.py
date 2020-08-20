@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import datetime as dt
 import numpy as np
 import re
 import os
@@ -25,7 +24,7 @@ area =          [["A", "B", "C", "D", "E", "F", "G", "H"],                      
 castling =      [0, 0]                                                                      #player 2, player 1
 rooks_move =    [[0, 0], [0, 0]]                                                            #player 2: left rook, right rook/player 1: left rook, right rook
 kings_move =    [0, 0]                                                                      #player 2: king/player 1: king  
-tech_check_status =  [0, 0]                                                                      #player 1, player 2 / 1 means check before, 2 means check after and 3 means check mate
+tech_check_status =  [0, 0, 0]                                                                      #player 1, player 2 / 1 means check before, 2 means check after and 3 means check mate
 path_pieces =   [["","",""],                                                                #source of the pieces
                 ["","",""]]                                                                 #destination of the pieces
 
@@ -147,9 +146,7 @@ def detection_piece(table, user):                                        #detect
             if queen_move(table, user, path_pieces, entity) == True:     #read queen's movements script
                 return (move_pieces(table, user))
         if table[path_pieces[0][1]][path_pieces[0][2]] == entity[j][5]:                                   #if chess piece equal king
-            if castling[j] == -1:
-                print("you have already did a castling")
-            elif table[path_pieces[1][1]][path_pieces[1][2]] == entity[j][3] and castling[j] == 0 and\
+            if table[path_pieces[1][1]][path_pieces[1][2]] == entity[j][3] and castling[j] == 0 and\
             kings_move[j] == 0 and\
             castling_move(table, user, path_pieces, entity, rooks_move) == True: #verify if the destination is a rook, the player has already did a castling and if the castling is legal
                 castling[j] = 1                                                     #if castling equal 1 it means that the player did or has did a castling
@@ -220,13 +217,15 @@ def game_condition(table, tmp_table, user):
     if user[2] == 1:
         if tech_check_status[0] == 0:
             user[3] = 1
-            if check(table, tmp_table, user, entity) == 2:
+            tech_check_status[2] = check(table, tmp_table, user, entity)
+            if tech_check_status[2] == 2:
                 print("The player", user[1],"is under check now")
             user[2] = 2
     elif user[2] == 2:
         if tech_check_status[1] == 0:
             user[3] = 1
-            if check(table, tmp_table, user, entity) == 2:
+            tech_check_status[2] = check(table, tmp_table, user, entity)
+            if tech_check_status[2] == 2:
                 print("The player", user[0],"is under check now")
             user[2] = 1
 
@@ -299,7 +298,7 @@ if __name__ == "__main__":
                                 if table[1][7] != entity[0][5] and table[1][6] != entity[0][3]:
                                     castling[0] = 0
             if tech_check_status[user[2]-1] == 0:
-                history(table, tmp_table, path_pieces, entity)
+                history(table, tmp_table, path_pieces, entity, tech_check_status[2])
 
             if user[2] == 0 or user[2] == -1:
                 break
