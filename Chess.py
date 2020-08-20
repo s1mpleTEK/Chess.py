@@ -13,6 +13,8 @@ from pieces_move.special_move import castling_move
 
 from chess_conditions.check_condition import check
 
+from game_history.history import history
+
 entity =        [[u"\u2659", u"\u2658", u"\u2657", u"\u2656", u"\u2655", u"\u2654"],        #pawn, knight, bishop, rook, queen, king (white) player 2
                 [u"\u265F", u"\u265E", u"\u265D", u"\u265C", u"\u265B", u"\u265A"],         #pawn, knight, bishop, rook, queen, king (black) player 1
                 ['_', "¤"]]                                                                 #empty_space, corner
@@ -255,12 +257,13 @@ if __name__ == "__main__":
             if (tech_check_status[user[2]-1] == 0):
                 print(user[user[2]-1],"'s turn")
                 tmp_table = load_table(table, tmp_table)
+
             table = game_loop(table, user)          #interaction with the player
             user = game_condition(table, tmp_table, user)
+
             if (tech_check_status[user[2]-1] == 1):
                 table = load_table(tmp_table, table)
                 print("you can not do this move because you already are under check")
-
                 if user[2] == 1:
                     if kings_move[1] == 1 and castling[1] == 0:
                         if tmp_table[path_pieces[0][1]][path_pieces[0][2]] == entity[1][5]:
@@ -271,10 +274,10 @@ if __name__ == "__main__":
                         if tmp_table[path_pieces[0][1]][path_pieces[0][2]] == entity[0][5]:
                             if table[path_pieces[0][1]][path_pieces[0][2]] == entity[0][5]:
                                 kings_move[0] = 0
+
             if (tech_check_status[user[2]-1] == 2):
                 table = load_table(tmp_table, table)
                 print("you can not do this move because you are going under check")
-
                 if user[2] == 1:
                     if castling[1] == -1:
                         if path_pieces[0][1] == 8 and path_pieces[0][2] == 5 and tmp_table[path_pieces[0][1]][path_pieces[0][2]] == entity[1][5]:
@@ -293,9 +296,12 @@ if __name__ == "__main__":
                             elif path_pieces[1][1] == 1 and path_pieces[1][2] == 8 and tmp_table[path_pieces[1][1]][path_pieces[1][2]] == entity[0][3]:
                                 if table[1][7] != entity[0][5] and table[1][6] != entity[0][3]:
                                     castling[0] = 0
+
             if (tech_check_status[user[2]-1] == 0):
+                history(table, tmp_table, path_pieces, entity)
                 tmp_table = load_table(table, tmp_table)                       #save previous move
                 display_table(table)
+
             if user[2] == 0 or user[2] == -1:
                 break
     except (EOFError, KeyboardInterrupt) as error:
