@@ -2,6 +2,7 @@
 
 import os
 from datetime import datetime as dt
+import re
 
 class History:
     hist_display = ""
@@ -36,7 +37,9 @@ class Os:
     name_file = ""
     path_file = ""
     def __init__(self, user):
-        self.name_file = str(dt.now().date()) + "_" + str(dt.now().timetuple().tm_hour) + ":" + str(dt.now().timetuple().tm_min) + "." + str(dt.now().timetuple().tm_sec) + "_" + str(user[0]) + "_versus_" + str(user[1]) + ".pgn"
+        self.name_file =    str(dt.now().date()) + "_" + str(dt.now().timetuple().tm_hour) + ":" +\
+                            str(dt.now().timetuple().tm_min) + "." + str(dt.now().timetuple().tm_sec)\
+                            + "_" + str(user[0]) + "_versus_" + str(user[1]) + ".pgn"
         self.path_dirs = "./game/"
         self.path_file = self.path_dirs + self.name_file
     def os_operation(self, user):
@@ -44,7 +47,9 @@ class Os:
             os.makedirs(self.path_dirs)
         if not os.path.exists(self.path_file):
             History.file_history = os.open(self.path_file, os.O_CREAT|os.O_RDWR)
-            os.write(History.file_history, str.encode('[Event "'+str(user[0])+' / '+str(user[1])+'"]\n[Date "'+str(dt.now().date())+'"]\n[White "'+str(user[0])+'"]\n[Black "'+str(user[1])+'"]\n'))
+            os.write(History.file_history, str.encode('[Event "'+str(user[0])+' / '+\
+                    str(user[1])+'"]\n[Date "'+str(dt.now().date())+'"]\n[White "'+\
+                    str(user[0])+'"]\n[Black "'+str(user[1])+'"]\n'))
         return
 
 class GetInformation:
@@ -53,9 +58,11 @@ class GetInformation:
         piece = str(GetInformation.get_piece(tmp_table, path_pieces, entity))
         status = str(GetInformation.get_status(tmp_table, path_pieces, entity))
         if piece != "":
-            move_player = piece + str(path_pieces[0][0]) + status + str(path_pieces[1][0])
+            move_player =   piece + str(GetInformation.get_format(path_pieces[0])) +\
+                            status + str(GetInformation.get_format(path_pieces[1]))
         else:
-            move_player = str(path_pieces[0][0]) + status + str(path_pieces[1][0])
+            move_player =   str(GetInformation.get_format(path_pieces[0])) +\
+                            status + str(GetInformation.get_format(path_pieces[1]))
         evolve = str(GetInformation.get_evolve(table, tmp_table, path_pieces, entity))
         if evolve != "":
             move_player = move_player + evolve
@@ -67,6 +74,21 @@ class GetInformation:
         elif castling == 2:
             move_player = "O-O"
         return (move_player)
+
+    @classmethod
+    def get_format(cls, str):
+        a = str[0][0]
+        print(a)
+        b = str[0][1]
+        print(b)
+        new_str = ""
+        if bool(re.match('^[a-hA-H]*$', a))==True:
+            new_str = a.lower()
+            new_str = new_str + b
+        else:
+            new_str = b.lower()
+            new_str = new_str + a
+        return (new_str)
 
     @classmethod
     def get_piece(cls, tmp_table, path_pieces, entity):

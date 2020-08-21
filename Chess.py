@@ -310,6 +310,7 @@ if __name__ == "__main__":
                 tmp_table = load_table(table, tmp_table)                       #save previous move
                 display_table(table)
     except (EOFError, KeyboardInterrupt) as error:
+        os.write(History.file_history, str.encode("*"))
         if os.path.exists(Os.path_file):
             os.close(History.file_history)
         exit()
