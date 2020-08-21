@@ -14,7 +14,7 @@ from lib.pieces_move.special_move import castling_move
 
 from lib.chess_conditions.check_condition import check
 
-from lib.game_history.history import History, Os, history
+from lib.game_history.history import History, Os
 
 entity =        [[u"\u2659", u"\u2658", u"\u2657", u"\u2656", u"\u2655", u"\u2654"],        #pawn, knight, bishop, rook, queen, king (white) player 2
                 [u"\u265F", u"\u265E", u"\u265D", u"\u265C", u"\u265B", u"\u265A"],         #pawn, knight, bishop, rook, queen, king (black) player 1
@@ -154,6 +154,8 @@ def detection_piece(table, user):                                        #detect
             elif castling[j] == 0 and kings_move[j] == 1\
             and table[path_pieces[1][1]][path_pieces[1][2]] == entity[j][3]:                            #if the king's player has already moved and that the player did not of castling
                 print("your king has already moved")
+            elif castling[j] == -1 and table[path_pieces[1][1]][path_pieces[1][2]] == entity[j][3]:                            #if the king's player has already moved and that the player did not of castling
+                print("you have already did a castling")
             if king_move(table, user, path_pieces, entity) == True:      #read king's movements script
                 kings_move[j] = 1                                                   #if kings_move equal 1 it means that the king has already moved
                 return (move_pieces(table, user))
@@ -251,6 +253,7 @@ def load_table(table, tmp_table):
 if __name__ == "__main__":
     try:
         user = set_user()                           #set name for player
+        Os(user).os_operation(user)
         table = set_table()                         #init game board
         tmp_table = set_tmp_table()
         display_table(table)                        #display game board
@@ -298,7 +301,7 @@ if __name__ == "__main__":
                                 if table[1][7] != entity[0][5] and table[1][6] != entity[0][3]:
                                     castling[0] = 0
             if tech_check_status[user[2]-1] == 0:
-                history(table, tmp_table, path_pieces, entity, tech_check_status[2])
+                History.history(table, tmp_table, path_pieces, entity, tech_check_status[2])
 
             if user[2] == 0 or user[2] == -1:
                 break
