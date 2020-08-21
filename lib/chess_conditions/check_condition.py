@@ -81,6 +81,9 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
             if board[king_pose[0]+i][king_pose[1]] != empty_space[0]:        #⭣
                 if board[king_pose[0]+i][king_pose[1]] in entity_me:
                     break
+                elif board[king_pose[0]+i][king_pose[1]] == entity_ad[0] or board[king_pose[0]+i][king_pose[1]] == entity_ad[1]\
+                or board[king_pose[0]+i][king_pose[1]] == entity_ad[2] or board[king_pose[0]+i][king_pose[1]] == entity_ad[5]:
+                    break
                 elif board[king_pose[0]+i][king_pose[1]] == entity_ad[3] or board[king_pose[0]+i][king_pose[1]] == entity_ad[4]:
                     return (True)
     except IndexError:
@@ -92,6 +95,9 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
                 break
             if board[king_pose[0]-i][king_pose[1]] != empty_space[0]:        #⭡
                 if board[king_pose[0]-i][king_pose[1]] in entity_me:
+                    break
+                elif board[king_pose[0]-i][king_pose[1]] == entity_ad[0] or board[king_pose[0]-i][king_pose[1]] == entity_ad[1]\
+                or board[king_pose[0]-i][king_pose[1]] == entity_ad[2] or board[king_pose[0]-i][king_pose[1]] == entity_ad[5]:
                     break
                 elif board[king_pose[0]-i][king_pose[1]] == entity_ad[3] or board[king_pose[0]-i][king_pose[1]] == entity_ad[4]:
                     return (True)
@@ -105,6 +111,9 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
             if board[king_pose[0]][king_pose[1]+i] != empty_space[0]:        #⭢
                 if board[king_pose[0]][king_pose[1]+i] in entity_me:
                     break
+                elif board[king_pose[0]][king_pose[1]+i] == entity_ad[0] or board[king_pose[0]][king_pose[1]+i] == entity_ad[1]\
+                or board[king_pose[0]][king_pose[1]+i] == entity_ad[2] or board[king_pose[0]][king_pose[1]+i] == entity_ad[5]:
+                    break
                 elif board[king_pose[0]][king_pose[1]+i] == entity_ad[3] or board[king_pose[0]][king_pose[1]+i] == entity_ad[4]:
                     return (True)
     except IndexError:
@@ -116,6 +125,9 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
                 break
             if board[king_pose[0]][king_pose[1]-i] != empty_space[0]:        #⭠
                 if board[king_pose[0]][king_pose[1]-i] in entity_me:
+                    break
+                elif board[king_pose[0]][king_pose[1]-i] == entity_ad[0] or board[king_pose[0]][king_pose[1]-i] == entity_ad[1]\
+                or board[king_pose[0]][king_pose[1]-i] == entity_ad[2] or board[king_pose[0]][king_pose[1]-i] == entity_ad[5]:
                     break
                 elif board[king_pose[0]][king_pose[1]-i] == entity_ad[3] or board[king_pose[0]][king_pose[1]-i] == entity_ad[4]:
                     return (True)
@@ -131,6 +143,9 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
                     break
                 elif user[2] == 1 and board[king_pose[0]+1][king_pose[1]+1] == entity_ad[0]:
                     return (True)
+                elif board[king_pose[0]+i][king_pose[1]+i] == entity_ad[0] or board[king_pose[0]+i][king_pose[1]+i] == entity_ad[1]\
+                or board[king_pose[0]+i][king_pose[1]+i] == entity_ad[2] or board[king_pose[0]+i][king_pose[1]+i] == entity_ad[5]:
+                    break
                 elif board[king_pose[0]+i][king_pose[1]+i] == entity_ad[2] or board[king_pose[0]+i][king_pose[1]+i] == entity_ad[4]:
                     return (True)
     except IndexError:
@@ -145,6 +160,9 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
                     break
                 elif user[2] == 1 and board[king_pose[0]+1][king_pose[1]-1] == entity_ad[0]:
                     return (True)
+                elif board[king_pose[0]+i][king_pose[1]-i] == entity_ad[0] or board[king_pose[0]+i][king_pose[1]-i] == entity_ad[1]\
+                or board[king_pose[0]+i][king_pose[1]-i] == entity_ad[2] or board[king_pose[0]+i][king_pose[1]-i] == entity_ad[5]:
+                    break
                 elif board[king_pose[0]+i][king_pose[1]-i] == entity_ad[2] or board[king_pose[0]+i][king_pose[1]-i] == entity_ad[4]:
                     return (True)
     except IndexError:
@@ -159,6 +177,9 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
                     break
                 elif user[2] == 2 and board[king_pose[0]-1][king_pose[1]+1] == entity_ad[0]:
                     return (True)
+                elif board[king_pose[0]-i][king_pose[1]+i] == entity_ad[0] or board[king_pose[0]-i][king_pose[1]+i] == entity_ad[1]\
+                or board[king_pose[0]-i][king_pose[1]+i] == entity_ad[2] or board[king_pose[0]-i][king_pose[1]+i] == entity_ad[5]:
+                    break
                 elif board[king_pose[0]-i][king_pose[1]+i] == entity_ad[2] or board[king_pose[0]-i][king_pose[1]+i] == entity_ad[4]:
                     return (True)
     except IndexError:
@@ -173,6 +194,9 @@ def check_verification(board, entity_ad, entity_me, empty_space, king_pose, user
                     break
                 elif user[2] == 2 and board[king_pose[0]-1][king_pose[1]-1] == entity_ad[0]:
                     return (True)
+                elif board[king_pose[0]-i][king_pose[1]-i] == entity_ad[0] or board[king_pose[0]-i][king_pose[1]-i] == entity_ad[1]\
+                or board[king_pose[0]-i][king_pose[1]-i] == entity_ad[2] or board[king_pose[0]-i][king_pose[1]-i] == entity_ad[5]:
+                    break
                 elif board[king_pose[0]-i][king_pose[1]-i] == entity_ad[2] or board[king_pose[0]-i][king_pose[1]-i] == entity_ad[4]:
                     return (True)
     except IndexError:

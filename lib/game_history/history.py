@@ -26,7 +26,6 @@ class History:
             os.write(cls.file_history, str.encode(cls.hist_display))
             os.write(cls.file_history, str.encode("\n"))
             cls.hist_technique.append([cls.player1_move, cls.player2_move])
-            print(cls.hist_technique)
             cls.turn_player = 1
             cls.turn_game += 1
         return
